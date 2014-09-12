@@ -14,7 +14,12 @@ module.exports = function(app,io){
 	app.get('/', function(req, res){
 
 		// Render views/home.html
-		res.render('home');
+		var id = Math.round((Math.random() * 1000000));
+		res.redirect('/chat/'+id);
+			
+
+		// Redirect to the random room
+		// res.redirect('/chat/'+id);
 	});
 
 	app.get('/create', function(req,res){
@@ -28,7 +33,7 @@ module.exports = function(app,io){
 
 	app.get('/chat/:id', function(req,res){
 
-		// Render the chant.html view
+		// Render the chat.html view
 		res.render('chat');
 	});
 
@@ -49,7 +54,7 @@ module.exports = function(app,io){
 				socket.emit('peopleinchat', {
 					number: 1,
 					user: chat.clients(data)[0].username,
-					avatar: chat.clients(data)[0].avatar,
+					// avatar: chat.clients(data)[0].avatar,
 					id: data
 				});
 			}
@@ -71,10 +76,10 @@ module.exports = function(app,io){
 
 				socket.username = data.user;
 				socket.room = data.id;
-				socket.avatar = gravatar.url(data.avatar, {s: '140', r: 'x', d: 'mm'});
+				// socket.avatar = gravatar.url(data.avatar, {s: '140', r: 'x', d: 'mm'});
 
 				// Tell the person what he should use for an avatar
-				socket.emit('img', socket.avatar);
+				// socket.emit('img', socket.avatar);
 
 
 				// Add the client to the room
@@ -88,8 +93,8 @@ module.exports = function(app,io){
 					usernames.push(chat.clients(data.id)[0].username);
 					usernames.push(chat.clients(data.id)[1].username);
 
-					avatars.push(chat.clients(data.id)[0].avatar);
-					avatars.push(chat.clients(data.id)[1].avatar);
+					// avatars.push(chat.clients(data.id)[0].avatar);
+					// avatars.push(chat.clients(data.id)[1].avatar);
 
 					// Send the startChat event to all the people in the
 					// room, along with a list of people that are in it.
@@ -117,8 +122,8 @@ module.exports = function(app,io){
 			socket.broadcast.to(this.room).emit('leave', {
 				boolean: true,
 				room: this.room,
-				user: this.username,
-				avatar: this.avatar
+				user: this.username
+				// avatar: this.avatar
 			});
 
 			// leave the room

@@ -11,7 +11,7 @@ $(function(){
 	// variables which hold the data for each person
 	var name = "",
 		email = "",
-		img = "",
+		img = "../img/unnamed.jpg",
 		friend = "";
 
 	// cache some jQuery objects
@@ -59,7 +59,7 @@ $(function(){
 	socket.on('peopleinchat', function(data){
 
 		if(data.number === 0){
-
+			console.log('sddsa');
 			showMessage("connected");
 
 			loginForm.on('submit', function(e){
@@ -75,16 +75,16 @@ $(function(){
 
 				email = yourEmail.val();
 
-				if(!isValid(email)) {
-					alert("Please enter a valid email!");
-				}
-				else {
+				// if(!isValid(email)) {
+					// alert("Please enter a valid email!");
+				// }
+				// else {
 
 					showMessage("inviteSomebody");
 
 					// call the server-side function 'login' and send user's parameters
 					socket.emit('login', {user: name, avatar: email, id: id});
-				}
+				// }
 			
 			});
 		}
@@ -108,15 +108,15 @@ $(function(){
 					alert("There already is a \"" + name + "\" in this room!");
 					return;
 				}
-				email = hisEmail.val();
+				// email = hisEmail.val();
 
-				if(!isValid(email)){
-					alert("Wrong e-mail format!");
-				}
-				else{
+				// if(!isValid(email)){
+					// alert("Wrong e-mail format!");
+				// }
+				// else{
 
 					socket.emit('login', {user: name, avatar: email, id: id});
-				}
+				// }
 
 			});
 		}
